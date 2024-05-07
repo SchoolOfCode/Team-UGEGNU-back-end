@@ -1,22 +1,26 @@
 import express from "express";
-import { getRoutes } from "./models/routes.js";
+import { getRouteById, getRoutes } from "./models/routes.js";
 
 const app = express();
 const PORT = 3000;
 
-app.get("/", async (req, res) => {
-  const allRoutes = await getRoutes();
-  res.status(200);
-  res.send(allRoutes);
-});
-
+// 1_ GET all routes (to display in table on FrontEnd (FE)) ---- /getAllRoutes
 // GET to retrieve stored route
 // read row from database
 // return the route data and name -- as JSON?
+app.get("/routes", async (req, res) => {
+  const allRoutes = await getRoutes();
+  res.status(200).json({ status: "success", payload: allRoutes });
+  //   console.log(allRoutes);
+});
 
-// 1_ GET all routes (to display in table on FrontEnd (FE)) ---- /getAllRoutes
 // 2_ GET route by ID to display single route on user click ---- /getRouteById
-
+app.get("/route/:id", async (req, res) => {
+  const id = req.params.id;
+  const route = await getRouteById(id);
+  res.status(200).json({ status: "success", payload: route });
+  console.log(route);
+});
 // POST to store/save a route
 // need to check body (route name and route data - generate id ourside in db) is present and in correct format -- sanitise name of route (user input)
 // add row to database

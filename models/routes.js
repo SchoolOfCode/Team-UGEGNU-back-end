@@ -9,8 +9,15 @@ export async function getRoutes() {
   // send to db
   return result.rows;
 }
+
 // GET route by ID
-export async function getRouteById(id) {}
+export async function getRouteById(id) {
+  // Query DB and return matching record by id
+  const queryText = "SELECT * FROM routes WHERE id =$1";
+  // Pass query to DB
+  const result = await pool.query(queryText, [id]);
+  return result.rows[0];
+}
 // POST new route
 export async function postRoute() {}
 // DELETE route
