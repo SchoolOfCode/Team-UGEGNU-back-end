@@ -1,11 +1,13 @@
 import express from "express";
+import { getRoutes } from "./models/routes.js";
 
 const app = express();
 const PORT = 3000;
 
-app.get("/", (req, res) => {
+app.get("/", async (req, res) => {
+  const allRoutes = await getRoutes();
   res.status(200);
-  res.send("UGEGNU I've come to bargain");
+  res.send(allRoutes);
 });
 
 // GET to retrieve stored route
