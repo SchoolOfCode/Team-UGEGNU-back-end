@@ -1,8 +1,15 @@
 import express from "express";
-import { getRouteById, getRoutes } from "./models/routes.js";
+import {
+  getRouteById,
+  getRoutes,
+  saveNewRoute,
+  deleteRoute,
+} from "./models/routes.js";
 
 const app = express();
 const PORT = 3000;
+
+app.use(express.json()); // express.json() middleware is used to parse incoming JSON requests
 
 // 1_ GET all routes (to display in table on FrontEnd (FE)) ---- /getAllRoutes
 // GET to retrieve stored route
@@ -16,19 +23,33 @@ app.get("/routes", async (req, res) => {
 
 // 2_ GET route by ID to display single route on user click ---- /getRouteById
 app.get("/route/:id", async (req, res) => {
+  // get id from params in url
   const id = req.params.id;
+  //   pass id to function to get specificed route
   const route = await getRouteById(id);
+  //   return chosen route
   res.status(200).json({ status: "success", payload: route });
-  console.log(route);
 });
+
 // POST to store/save a route
-// need to check body (route name and route data - generate id ourside in db) is present and in correct format -- sanitise name of route (user input)
-// add row to database
+app.post("/newRoute", async (req, res) => {
+  //define data from request body - THIS WILL NEED VALIDATING!
+  const route = req.body;
+  // add new route to DB once validated
+  const newRoute = await saveNewRoute(route);
+  // return new route and success
+  res.status(201).json({ status: "success", payload: newRoute });
+});
 
 // DELETE to delete a saved route
-// remove row from database based on ID
-// return 'delete successful' if row has been removed ok
-// return updated database to display on FE
+app.delete("/delete/:id", async (req, res) => {
+  // get id from params in url
+  const id = req.params.id;
+  // pass id to delete function
+  const deletedRoute = deleteRoute(id);
+  // return details of deleted route
+  res.status(200).json({ status: "success", payload: "Deleted Successfully" });
+});
 
 app.listen(PORT, (error) => {
   if (!error)

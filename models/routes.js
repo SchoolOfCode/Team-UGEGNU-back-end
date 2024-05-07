@@ -19,6 +19,22 @@ export async function getRouteById(id) {
   return result.rows[0];
 }
 // POST new route
-export async function postRoute() {}
+export async function saveNewRoute(route) {
+  console.log(route);
+  //define SQL query for new route
+  const queryText =
+    "INSERT INTO routes (route_name, route_data) VALUES ($1, $2) RETURNING *";
+  // take values from req body
+  const values = [route.name, route.data];
+  //Send query to DB
+  const result = await pool.query(queryText, values);
+  // return result (newly added route)
+  return result.rows[0];
+}
 // DELETE route
-export async function deleteRoute() {}
+export async function deleteRoute(id) {
+  // DELETE FROM routes WHERE id = 2
+  const queryText = "DELETE FROM routes WHERE id = $1";
+  const result = await pool.query(queryText, [id]);
+  return result.rows[0];
+}
