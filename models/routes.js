@@ -18,6 +18,7 @@ export async function getRouteById(id) {
   const result = await pool.query(queryText, [id]);
   return result.rows[0];
 }
+
 // POST new route
 export async function saveNewRoute(route) {
   console.log(route);
@@ -31,6 +32,7 @@ export async function saveNewRoute(route) {
   // return result (newly added route)
   return result.rows[0];
 }
+
 // DELETE route
 export async function deleteRoute(id) {
   // DELETE FROM routes WHERE id = 2
