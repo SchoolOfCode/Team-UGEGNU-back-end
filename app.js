@@ -35,8 +35,11 @@ app.get("/route/:id", async (req, res) => {
 app.post("/newRoute", async (req, res) => {
   //define data from request body - THIS WILL NEED VALIDATING!
   const route = req.body;
+  console.log("req.body route" + route);
   // add new route to DB once validated
   const newRoute = await saveNewRoute(route);
+  console.log("new Route line 41" + newRoute);
+  console.log(JSON.parse(newRoute));
   // return new route and success
   res.status(201).json({ status: "success", payload: newRoute });
 });

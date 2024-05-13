@@ -11,7 +11,7 @@ async function resetDatabase() {
         CREATE TABLE routes (
             id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
             route_name VARCHAR(255) NOT NULL,
-            route_data VARCHAR(255)
+            route_data TEXT
         );
     `);
 
